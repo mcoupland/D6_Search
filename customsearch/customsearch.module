@@ -1,0 +1,133 @@
+<?php
+include_once(drupal_get_path('module', 'customsearch').'/customsearch_blocks.inc');
+include_once(drupal_get_path('module', 'customsearch').'/customsearch_queries.inc');
+include_once(drupal_get_path('module', 'customsearch').'/customsearch_helperfunctions.inc');
+
+function customsearch_menu(){
+	return array(
+		'keyword-search' => array(
+			'page callback' => '_customsearch_showresults',
+			'type' => MENU_CALLBACK,
+			'access callback' => 1,
+		),
+		'keyword-search/%' => array(
+			'page callback' => '_customsearch_showresults',
+			'page arguments' => array(1, '1'),
+			'type' => MENU_CALLBACK,
+			'access callback' => 1,
+		),
+		'keyword-search/%/%' => array(
+			'page callback' => '_customsearch_showresults',
+			'page arguments' => array(1, 2),
+			'type' => MENU_CALLBACK,
+			'access callback' => 1,
+		),
+	);
+}
+
+/**
+ * hook_form
+ */
+function searchform($form_state){	
+	$form['searchterm'] = array(
+		'#type' => 'textfield',
+		'#title' => 'Search',
+		'#size' => 60,
+		'#required' => TRUE,
+		'#attributes' => array('class' => 'customsearch_autocomplete', 'autocomplete' => 'off', 'title' => 'Search'),	
+	);
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => '',
+	);	
+	return $form;
+}
+
+/**
+ * hook_form
+ */
+function utilitybar_searchform($form_state){	
+	$form['utilitybar_searchterm'] = array(
+		'#type' => 'textfield',
+		'#title' => 'Search',
+		'#size' => 45,
+		'#required' => TRUE,
+		'#attributes' => array('class' => 'utilitybar_searchform customsearch_autocomplete', 'autocomplete' => 'off', 'title' => 'Search'),	
+	);
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => '',
+	);	
+	return $form;
+}
+
+function customsearch_init(){
+	drupal_add_css(drupal_get_path('module', 'customsearch').'/customsearch.css');
+}
+
+/**
+ * Redirect to search results
+ */
+function searchform_submit($form, &$form_state) {
+	drupal_goto('keyword-search/'.$form['#post']['searchterm']);
+}
+
+/**
+ * Redirect to search results
+ */
+function utilitybar_searchform_submit($form, &$form_state) {
+	drupal_goto('keyword-search/'.$form['#post']['utilitybar_searchterm']);
+}
+
+function customsearch_newcron(){
+	$truncate_query = _customsearch_get_crontruncatequery();	
+	$select_query = _customsearch_get_cronselectquery();
+	$insert_query = _customsearch_get_croninsertquery();
+	
+	db_query($truncate_query);	
+	$results = db_query($select_query,'a:1:{s:5:"value";s:0:"";}');	
+	while($result = db_fetch_array($results)){				
+		switch($result['type']){
+			case 'regions':
+				$result['category']  = 'Destinations';
+				$result['category_sort_order']  = '0';
+				break;
+			case 'hotels':
+			case 'villas':
+				$result['category']  = 'Properties';
+				$result['category_sort_order']  = '1';
+				break;
+			default:
+				$result['category']  = 'Articles';
+				$result['category_sort_order']  = '2';
+				break;		
+		}
+		$result['title'] = trim(strip_tags(html_entity_decode($result['title'], ENT_QUOTES, 'UTF-8')));	
+		$result['body'] = trim(strip_tags(html_entity_decode($result['body'], ENT_QUOTES, 'UTF-8')));
+		$result['teaser'] = trim(strip_tags(html_entity_decode($result['teaser'], ENT_QUOTES, 'UTF-8')));
+				
+		$result['nodeword_content'] = unserialize($result['nodeword_content']);
+		$result['nodeword_content'] = trim(strip_tags(html_entity_decode($result['nodeword_content']['value'], ENT_QUOTES, 'UTF-8')));	
+		if($result['nodeword_name'] == 'keywords'){
+			$result['nodeword_keywords'] = $result['nodeword_content'];
+			$result['nodeword_description'] = '';
+		}
+		else{
+			$result['nodeword_keywords'] = '';
+			$result['nodeword_description'] = $result['nodeword_content'];		
+		}		
+		unset($result['nodeword_name']);
+		unset($result['nodeword_content']);
+		
+		if($result['category']  = 'Articles'){
+			$articlekeyword_query = _customsearch_get_cronarticlekeywordquery();
+			$results = db_query($articlekeyword_query, $result['nid']);
+			while($result = db_fetch_array($results)){
+				var_dump($result);
+			}
+			die();
+		}
+		$insert_query = _customsearch_get_croninsertquery();		
+		db_query($insert_query, $result);
+	}
+}

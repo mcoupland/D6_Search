@@ -1,0 +1,89 @@
+body div#title h1{display:none;}
+div#utility-bar div.block-customsearch{float:left;margin:5px 0px 0px 0px;}
+form#utilitybar-searchform div#edit-utilitybar-searchterm-wrapper{display:inline;float:left;margin:0px;}
+
+
+/* Form on utility bar - style the "overlabel" text in the search term text box */
+form#utilitybar-searchform.compact-form label{right:10px;bottom:3px;}
+form#searchform.compact-form label{right:7px;bottom:4px;}
+
+/* Form on utility bar - style autocomplete */
+div.block-customsearch #search-autocomplete .ui-autocomplete{width:291px;}
+
+
+
+/* style the div that drupal forms puts around the search term text box */
+form#searchform div#edit-searchterm-wrapper,
+form#utilitybar-searchform div#edit-searchterm-wrapper{	float:left;	margin:0px;display:inline;}
+
+/* style the search term text box */
+form#utilitybar-searchform input#edit-utilitybar-searchterm,
+form#searchform input#edit-searchterm,
+form#utilitybar-searchform input#edit-searchterm{color:#333;font-family: "Benton Sans Regular", Verdana, Arial, Helvetica, sans-serif;font-size: 14px;}
+
+/* style the "overlabel" text in the search term text box */
+form#searchform.compact-form label,
+form#utilitybar-searchform.compact-form label{line-height:19px;color:#aaa;font-family: "Benton Sans Regular", Verdana, Arial, Helvetica, sans-serif;font-size: 13px;font-weight: normal;top:auto;left:auto;}
+
+
+/* Form on search page - style the submit button */
+form#searchform.compact-form input.form-submit,
+form#utilitybar-searchform.compact-form input.form-submit{margin-top:5px;margin-left:2px;width: 16px;height: 16px;border: 0;overflow: hidden;background-color: #fff;background-image: url(/sites/all/themes/andrew_harper/images/magnify16.png);background-repeat: no-repeat;padding: 0;}
+
+/* Form on search page - style the header */
+div.search-form h3{font-size:18px; font-style:normal; font-family: "Benton Sans Bold", Verdana, Arial, Helvetica, sans-serif; color:#000;}
+
+/* Form on search page - style the icons */
+div.search-form-icons div{margin-bottom:15px;}
+div.search-form-icons .label{margin-left:10px;line-height:20px;height:20px;vertical-align:top;font-size:13px;font-family: "Benton Sans Regular", Verdana, Arial, Helvetica, sans-serif;}
+
+
+
+
+
+/* Global - force autocomplete list to display on top of the navigation */
+#search-autocomplete{z-index:1000;position:absolute;}
+
+/* Global - style autocomplete list 
+	position:absolute  --so we can absolutely position the list inside this container
+	overflow-x: hidden --prevent horizontal scrollbar in autocomplete list
+*/
+#search-autocomplete .ui-autocomplete{max-height: 150px;overflow-x: hidden;overflow-y: auto;color:#36c;font-family: "Benton Sans Regular", Verdana, Arial, Helvetica, sans-serif;font-size: 14px;background-color:#fff;border:solid 1px #ccc;width:391px;padding:0px 0px 3px 0px;position:absolute;}
+
+
+/* fine-tune the spacing of items in the autocomplete list */
+#search-autocomplete .ui-autocomplete li{padding:3px 0px 3px 6px;margin:0px;}
+
+
+
+/* style hover behavior of items in the autocomlete list */
+#search-autocomplete .ui-autocomplete li:hover,
+#search-autocomplete .ui-autocomplete a:hover{background-color:#eee;cursor:pointer;}
+#search-autocomplete .ui-autocomplete li a{color:#36c;}
+
+/* bring main page content closer to the search form */
+body.section-search-results div#page div#content-area.container-12{margin-top:0px;}
+
+ul.content-list h5.customsearch-pager{color:#000;}
+
+/* fine-tune spacing of pager elements */
+.customsearch-pager.columns li{padding-left:5px;}
+.customsearch-pager.columns li.label{padding-left:0px;}
+.customsearch-pager.columns li.last{padding-left:5px;margin-right:10px;}
+.customsearch-pager.columns li.separator-right{border-right:solid 2px #ccc;}
+
+ul.content-list.customsearch-pager{margin-top:20px;}
+
+/* pager summary */
+h5.customsearch-pager{font-style:italic;margin:0px;}
+
+#customsearch-searchresults .bullet{color:#E34609;margin-left:3px;}
+#customsearch-searchresults h4{font-family: "Benton Sans Bold", Verdana, Arial, Helvetica, sans-serif;}
+#customsearch-searchresults.content-list.rows li ul.search-result-related{margin:15px 0px 0px 0px;}
+#customsearch-searchresults.content-list.rows li ul.search-result-related li.search-result-related-item{margin:10px 0px 0px 0px;font-size:13px; line-height:18px;}
+#customsearch-searchresults.content-list.rows li ul.search-result-related li.search-result-related-item h6{font-size:12px; text-transform:uppercase; font-style:normal; font-family: "Benton Sans Bold", Verdana, Arial, Helvetica, sans-serif; color:#000;}
+
+
+
+
+
